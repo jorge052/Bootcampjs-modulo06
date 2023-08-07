@@ -2,6 +2,12 @@ import { partida } from "./modelo";
 
 import { muestraPuntuacion } from "./ui";
 
+// Boton iniciar partida
+
+export function iniciarPartida() {
+  partida.puntuacion = 0;
+}
+
 // Bloque de codigo para obtener nueva carta
 
 export function dameCarta() {

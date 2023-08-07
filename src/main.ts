@@ -1,10 +1,16 @@
 import "./style.css";
 
-import { dameCarta, sumarPuntuacion } from "./motor";
+import { dameCarta, sumarPuntuacion, iniciarPartida } from "./motor";
 
 import { mostrarCarta, muestraPuntuacion } from "./ui";
 
 const nuevaCarta = document.getElementById("dameCarta");
+
+const nuevaPartida = document.getElementById("nuevaPartida");
+nuevaPartida?.addEventListener("click", function () {
+  iniciarPartida();
+  muestraPuntuacion();
+});
 
 document.addEventListener("DOMContentLoaded", function () {
   muestraPuntuacion();
