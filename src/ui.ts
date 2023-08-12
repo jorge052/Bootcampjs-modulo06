@@ -1,4 +1,4 @@
-import { dameCarta, sumarPuntuacion } from "./motor";
+import { mostrarSiguienteCarta } from "./motor";
 
 import { partida } from "./modelo";
 
@@ -10,11 +10,30 @@ export function muestraPuntuacion() {
   }
 }
 
-export function mostrarCartaNueva() {
-  const cartaNueva = dameCarta();
-  console.log("Carta elegida:", cartaNueva);
-  mostrarCarta(cartaNueva);
-  sumarPuntuacion(cartaNueva);
+// Ocultar botones
+
+export function ocultarBotonNuevaPartida() {
+  const nuevaPartidaButton = document.getElementById("nuevaPartida");
+  if (nuevaPartidaButton) {
+    nuevaPartidaButton.style.display = "none";
+  }
+}
+
+export function mostrarBotonNuevaPartida() {
+  const nuevaPartidaButton = document.getElementById("nuevaPartida");
+  if (nuevaPartidaButton) {
+    nuevaPartidaButton.style.display = "block";
+  }
+}
+
+// Boton saber mas
+
+export function mostrarBotonSabermas() {
+  const saberMasButton = document.getElementById("saberMas");
+  if (saberMasButton instanceof HTMLButtonElement) {
+    saberMasButton.addEventListener("click", mostrarSiguienteCarta);
+    saberMasButton.style.display = "block";
+  }
 }
 
 export function mostrarCarta(carta: number) {

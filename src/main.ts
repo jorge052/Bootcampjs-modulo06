@@ -1,16 +1,12 @@
 import "./style.css";
 
-import { dameCarta, sumarPuntuacion, iniciarPartida } from "./motor";
+import { iniciarNuevaPartida, plantarse, mostrarCartaNueva } from "./motor";
 
-import { mostrarCarta, muestraPuntuacion } from "./ui";
+import { muestraPuntuacion } from "./ui";
 
 const nuevaCarta = document.getElementById("dameCarta");
-
-const nuevaPartida = document.getElementById("nuevaPartida");
-nuevaPartida?.addEventListener("click", function () {
-  iniciarPartida();
-  muestraPuntuacion();
-});
+const plantarseboton = document.getElementById("plantarse");
+const nuevaPartidaButton = document.getElementById("nuevaPartida");
 
 document.addEventListener("DOMContentLoaded", function () {
   muestraPuntuacion();
@@ -20,9 +16,10 @@ if (nuevaCarta instanceof HTMLButtonElement) {
   nuevaCarta.addEventListener("click", mostrarCartaNueva);
 }
 
-function mostrarCartaNueva() {
-  const cartaNueva = dameCarta();
-  console.log("Carta elegida:", cartaNueva);
-  mostrarCarta(cartaNueva);
-  sumarPuntuacion(cartaNueva);
+if (plantarseboton instanceof HTMLButtonElement) {
+  plantarseboton.addEventListener("click", plantarse);
+}
+
+if (nuevaPartidaButton instanceof HTMLButtonElement) {
+  nuevaPartidaButton.addEventListener("click", iniciarNuevaPartida);
 }
