@@ -1,13 +1,12 @@
 interface Partida {
-  puntuacion: number;
+  puntosTotales: number;
   siguienteCarta: number;
-  gameOver: boolean;
-  partidaTerminada: boolean;
+  urlCarta: string;
 }
 
-export const partida: Partida = {
-  puntuacion: 0,
+export let partida: Partida = {
+  puntosTotales: 0,
   siguienteCarta: 0,
-  gameOver: false,
-  partidaTerminada: false,
+  urlCarta:
+    "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas",
 };

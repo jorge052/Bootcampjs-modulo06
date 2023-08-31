@@ -1,25 +1,42 @@
 import "./style.css";
 
-import { iniciarNuevaPartida, plantarse, mostrarCartaNueva } from "./motor";
+import { dameCarta, plantarse } from "./motor";
 
-import { muestraPuntuacion } from "./ui";
-
-const nuevaCarta = document.getElementById("dameCarta");
-const plantarseboton = document.getElementById("plantarse");
-const nuevaPartidaButton = document.getElementById("nuevaPartida");
+import {
+  iniciarNuevaPartida,
+  nuevaCarta,
+  plantarseboton,
+  nuevaPartidaButton,
+} from "./ui";
 
 document.addEventListener("DOMContentLoaded", function () {
-  muestraPuntuacion();
+  eventosBotones();
 });
 
-if (nuevaCarta instanceof HTMLButtonElement) {
-  nuevaCarta.addEventListener("click", mostrarCartaNueva);
-}
+// Eventlisteners
 
-if (plantarseboton instanceof HTMLButtonElement) {
-  plantarseboton.addEventListener("click", plantarse);
-}
+const eventosBotones = () => {
+  if (
+    nuevaCarta !== null &&
+    nuevaCarta !== undefined &&
+    nuevaCarta instanceof HTMLButtonElement
+  ) {
+    nuevaCarta.addEventListener("click", dameCarta);
+  }
 
-if (nuevaPartidaButton instanceof HTMLButtonElement) {
-  nuevaPartidaButton.addEventListener("click", iniciarNuevaPartida);
-}
+  if (
+    plantarseboton !== null &&
+    plantarseboton !== undefined &&
+    plantarseboton instanceof HTMLButtonElement
+  ) {
+    plantarseboton.addEventListener("click", plantarse);
+  }
+
+  if (
+    nuevaPartidaButton !== null &&
+    nuevaPartidaButton !== undefined &&
+    nuevaPartidaButton instanceof HTMLButtonElement
+  ) {
+    nuevaPartidaButton.addEventListener("click", iniciarNuevaPartida);
+  }
+};

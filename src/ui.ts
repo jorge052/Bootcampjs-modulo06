@@ -2,86 +2,189 @@ import { mostrarSiguienteCarta } from "./motor";
 
 import { partida } from "./modelo";
 
-export function muestraPuntuacion() {
-  const mostraPuntuacionElemento = document.getElementById("mostrarPuntuacion");
+export const partidaGanada = () => {
+  if (partida.puntosTotales === 7.5) {
+    mostrarMensaje(`partida ganada ${partida.puntosTotales}`);
+    deshabilitarBotonNuevaCarta(true);
+    mostrarBotonNuevaPartida();
+    deshabilitarBotonPlantarse(true);
+  }
+};
 
-  if (mostraPuntuacionElemento) {
-    mostraPuntuacionElemento.textContent = `Puntuación actual: ${partida.puntuacion}`;
+export const partidaPerdida = () => {
+  if (partida.puntosTotales > 7.5) {
+    mostrarMensaje(`partida perdida ${partida.puntosTotales}`);
+    deshabilitarBotonNuevaCarta(true);
+    mostrarBotonNuevaPartida();
+    deshabilitarBotonPlantarse(true);
+  }
+};
+
+export function iniciarNuevaPartida() {
+  partida.puntosTotales = 0;
+  deshabilitarBotonNuevaCarta(false);
+  deshabilitarBotonPlantarse(false);
+  mostrarCarta(0);
+  mostrarMensaje(`${"0"}`);
+
+  const elementoImagen = document.getElementById("cartaImagen");
+  if (
+    elementoImagen !== null &&
+    elementoImagen !== undefined &&
+    elementoImagen instanceof HTMLImageElement
+  ) {
+    const urlImagen =
+      "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg";
+    elementoImagen.src = urlImagen;
   }
 }
 
-// Ocultar botones
-
-export function ocultarBotonNuevaPartida() {
-  const nuevaPartidaButton = document.getElementById("nuevaPartida");
-  if (nuevaPartidaButton) {
-    nuevaPartidaButton.style.display = "none";
+export const mensajesPlantarse = () => {
+  if (partida.puntosTotales < 4) {
+    mostrarMensaje("Has sido muy conservador");
+  } else if (partida.puntosTotales >= 4 && partida.puntosTotales < 6) {
+    mostrarMensaje("Te ha entrado el canguelo eh?");
+  } else if (partida.puntosTotales >= 6 && partida.puntosTotales <= 7) {
+    mostrarMensaje("Casi casí...");
+  } else if (partida.puntosTotales === 7.5) {
+    mostrarMensaje("¡Lo has clavado! ¡Enhorabuena!");
+  } else {
+    console.log("error");
   }
-}
+};
 
-export function mostrarBotonNuevaPartida() {
-  const nuevaPartidaButton = document.getElementById("nuevaPartida");
-  if (nuevaPartidaButton) {
-    nuevaPartidaButton.style.display = "block";
+export const mostrarMensaje = (mensaje: string) => {
+  const elementoCabecera = document.getElementById("mostrarPuntuacion");
+  if (
+    elementoCabecera !== null &&
+    elementoCabecera !== undefined &&
+    elementoCabecera instanceof HTMLHeadingElement
+  ) {
+    elementoCabecera.textContent = mensaje;
   }
-}
+};
 
-// Boton saber mas
+export const mostrarCarta = (carta: number) => {
+  const elementoImg = document.getElementById("cartaImagen");
+  if (
+    elementoImg !== null &&
+    elementoImg !== undefined &&
+    elementoImg instanceof HTMLImageElement
+  ) {
+    const urlImagen = devolverUrlCarta(carta);
+    elementoImg.src = urlImagen;
+  }
+};
 
 export function mostrarBotonSabermas() {
-  const saberMasButton = document.getElementById("saberMas");
-  if (saberMasButton instanceof HTMLButtonElement) {
+  if (
+    saberMasButton !== null &&
+    saberMasButton !== undefined &&
+    saberMasButton instanceof HTMLButtonElement
+  ) {
     saberMasButton.addEventListener("click", mostrarSiguienteCarta);
     saberMasButton.style.display = "block";
   }
 }
 
-export function mostrarCarta(carta: number) {
-  const imgCarta = document.getElementById("cartaImagen") as HTMLImageElement;
+// Habilitar y deshabilitar botones
+
+export const deshabilitarBotonNuevaCarta = (estaDeshabilitado: boolean) => {
+  const botonPedirCarta = document.getElementById("dameCarta");
+  if (
+    botonPedirCarta !== null &&
+    botonPedirCarta !== undefined &&
+    botonPedirCarta instanceof HTMLButtonElement
+  ) {
+    botonPedirCarta.disabled = estaDeshabilitado;
+  }
+};
+
+export const deshabilitarBotonPlantarse = (estaDeshabilitado: boolean) => {
+  const plantarseboton = document.getElementById("plantarse");
+  if (
+    plantarseboton !== null &&
+    plantarseboton !== undefined &&
+    plantarseboton instanceof HTMLButtonElement
+  ) {
+    plantarseboton.disabled = estaDeshabilitado;
+  }
+};
+
+export const deshabilitarBotonSabermas = (estaDeshabilitado: boolean) => {
+  const saberMasButton = document.getElementById("saberMas");
+  if (
+    saberMasButton !== null &&
+    saberMasButton !== undefined &&
+    saberMasButton instanceof HTMLButtonElement
+  ) {
+    saberMasButton.disabled = estaDeshabilitado;
+  }
+};
+
+export const habilitarBotonNuevaPartida = (estaDeshabilitado: boolean) => {
+  const nuevaPartidaButton = document.getElementById("plantarse");
+  if (
+    nuevaPartidaButton !== null &&
+    nuevaPartidaButton !== undefined &&
+    nuevaPartidaButton instanceof HTMLButtonElement
+  ) {
+    nuevaPartidaButton.disabled = estaDeshabilitado;
+  }
+};
+
+export function mostrarBotonNuevaPartida() {
+  if (
+    nuevaPartidaButton !== null &&
+    nuevaPartidaButton !== undefined &&
+    nuevaPartidaButton instanceof HTMLButtonElement
+  ) {
+    nuevaPartidaButton.style.display = "block";
+  }
+}
+
+// meter todos los botones en una sola funcion *tambien cualquier interaccion con html
+
+export const nuevaCarta = document.getElementById("dameCarta");
+export const plantarseboton = document.getElementById("plantarse");
+export const saberMasButton = document.getElementById("saberMas");
+export const nuevaPartidaButton = document.getElementById("nuevaPartida");
+
+// Funcion para mostrar cartas
+
+export function devolverUrlCarta(carta: number) {
   switch (carta) {
     case 1:
-      imgCarta.src =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg";
-      break;
+      return partida.urlCarta + "/copas/1_as-copas.jpg";
+
     case 2:
-      imgCarta.src =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg";
-      break;
+      return partida.urlCarta + "/copas/2_dos-copas.jpg";
+
     case 3:
-      imgCarta.src =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg";
-      break;
+      return partida.urlCarta + "/copas/3_tres-copas.jpg";
+
     case 4:
-      imgCarta.src =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg";
-      break;
+      return partida.urlCarta + "/copas/4_cuatro-copas.jpg";
+
     case 5:
-      imgCarta.src =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg";
-      break;
+      return partida.urlCarta + "/copas/5_cinco-copas.jpg";
+
     case 6:
-      imgCarta.src =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg";
-      break;
+      return partida.urlCarta + "/copas/6_seis-copas.jpg";
+
     case 7:
-      imgCarta.src =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg";
-      break;
+      return partida.urlCarta + "/copas/7_siete-copas.jpg";
+
     case 10:
-      imgCarta.src =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg";
-      break;
+      return partida.urlCarta + "/copas/10_sota-copas.jpg";
+
     case 11:
-      imgCarta.src =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg";
-      break;
+      return partida.urlCarta + "/copas/11_caballo-copas.jpg";
+
     case 12:
-      imgCarta.src =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg";
-      break;
+      return partida.urlCarta + "/copas/12_rey-copas.jpg";
+
     default:
-      imgCarta.src =
-        "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg";
-      break;
+      return partida.urlCarta + "/back.jpg";
   }
 }
