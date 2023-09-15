@@ -14,8 +14,6 @@ import {
   partidaPerdida,
 } from "./ui";
 
-
-
 // generar numero aleatorio funcion
 
 export const generarNumeroAleatorio = (): number => {
@@ -86,4 +84,5 @@ export function mostrarSiguienteCarta() {
   mostrarMensaje(`${partida.puntosTotales}`);
   revisarMano();
   deshabilitarBotonSabermas(true);
+  deshabilitarBotonPlantarse(true);
 }

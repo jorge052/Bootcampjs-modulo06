@@ -3,21 +3,17 @@ import { mostrarSiguienteCarta } from "./motor";
 import { partida } from "./modelo";
 
 export const partidaGanada = () => {
-  if (partida.puntosTotales === 7.5) {
-    mostrarMensaje(`partida ganada ${partida.puntosTotales}`);
-    deshabilitarBotonNuevaCarta(true);
-    mostrarBotonNuevaPartida();
-    deshabilitarBotonPlantarse(true);
-  }
+  mostrarMensaje(`partida ganada ${partida.puntosTotales}`);
+  deshabilitarBotonNuevaCarta(true);
+  mostrarBotonNuevaPartida();
+  deshabilitarBotonPlantarse(true);
 };
 
 export const partidaPerdida = () => {
-  if (partida.puntosTotales > 7.5) {
-    mostrarMensaje(`partida perdida ${partida.puntosTotales}`);
-    deshabilitarBotonNuevaCarta(true);
-    mostrarBotonNuevaPartida();
-    deshabilitarBotonPlantarse(true);
-  }
+  mostrarMensaje(`partida perdida ${partida.puntosTotales}`);
+  deshabilitarBotonNuevaCarta(true);
+  mostrarBotonNuevaPartida();
+  deshabilitarBotonPlantarse(true);
 };
 
 export function iniciarNuevaPartida() {
