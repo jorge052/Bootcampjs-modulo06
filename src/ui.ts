@@ -1,6 +1,23 @@
-import { mostrarSiguienteCarta } from "./motor";
+import {
+  devolverUrlCarta,
+  generarNumeroAleatorio,
+  generarCarta,
+  sumarPuntuacion,
+  devolverPuntos,
+} from "./motor";
 
 import { partida } from "./modelo";
+
+// funcion principal
+export const dameCarta = () => {
+  const numeroAletorio = generarNumeroAleatorio();
+  const carta = generarCarta(numeroAletorio);
+  mostrarCarta(carta);
+  const puntos = devolverPuntos(carta);
+  sumarPuntuacion(puntos);
+  mostrarMensaje(`${partida.puntosTotales}`);
+  revisarMano(); // para ui
+};
 
 export const partidaGanada = () => {
   mostrarMensaje(`partida ganada ${partida.puntosTotales}`);
@@ -21,7 +38,7 @@ export function iniciarNuevaPartida() {
   deshabilitarBotonNuevaCarta(false);
   deshabilitarBotonPlantarse(false);
   mostrarCarta(0);
-  mostrarMensaje(`${"0"}`);
+  mostrarMensaje("0");
 
   const elementoImagen = document.getElementById("cartaImagen");
   if (
@@ -148,39 +165,62 @@ export const nuevaPartidaButton = document.getElementById("nuevaPartida");
 
 // Funcion para mostrar cartas
 
-export function devolverUrlCarta(carta: number) {
-  switch (carta) {
-    case 1:
-      return partida.urlCarta + "/copas/1_as-copas.jpg";
+export function mostrarSiguienteCarta() {
+  partida.siguienteCarta = generarNumeroAleatorio();
+  mostrarCarta(partida.siguienteCarta);
+  const numeroAletorio = generarNumeroAleatorio();
+  const carta = generarCarta(numeroAletorio);
+  mostrarCarta(carta);
+  const puntos = devolverPuntos(carta);
+  sumarPuntuacion(puntos);
+  mostrarMensaje(`${partida.puntosTotales}`);
+  revisarMano();
+  deshabilitarBotonSabermas(true);
+  deshabilitarBotonPlantarse(true);
+} // para ui
 
-    case 2:
-      return partida.urlCarta + "/copas/2_dos-copas.jpg";
+// Bloque de codigo para plantarse
 
-    case 3:
-      return partida.urlCarta + "/copas/3_tres-copas.jpg";
+export function plantarse() {
+  mensajesPlantarse();
+  mostrarBotonSabermas();
+  deshabilitarBotonPlantarse(true);
+  deshabilitarBotonNuevaCarta(true);
+  habilitarBotonNuevaPartida(false);
+  mostrarBotonNuevaPartida();
+  deshabilitarBotonSabermas(false);
+} // para ui
 
-    case 4:
-      return partida.urlCarta + "/copas/4_cuatro-copas.jpg";
-
-    case 5:
-      return partida.urlCarta + "/copas/5_cinco-copas.jpg";
-
-    case 6:
-      return partida.urlCarta + "/copas/6_seis-copas.jpg";
-
-    case 7:
-      return partida.urlCarta + "/copas/7_siete-copas.jpg";
-
-    case 10:
-      return partida.urlCarta + "/copas/10_sota-copas.jpg";
-
-    case 11:
-      return partida.urlCarta + "/copas/11_caballo-copas.jpg";
-
-    case 12:
-      return partida.urlCarta + "/copas/12_rey-copas.jpg";
-
-    default:
-      return partida.urlCarta + "/back.jpg";
+export const revisarMano = () => {
+  if (partida.puntosTotales === 7.5) {
+    partidaGanada();
+  } else if (partida.puntosTotales > 7.5) {
+    partidaPerdida();
   }
-}
+}; // para ui
+
+export const eventosBotones = () => {
+  if (
+    nuevaCarta !== null &&
+    nuevaCarta !== undefined &&
+    nuevaCarta instanceof HTMLButtonElement
+  ) {
+    nuevaCarta.addEventListener("click", dameCarta);
+  }
+
+  if (
+    plantarseboton !== null &&
+    plantarseboton !== undefined &&
+    plantarseboton instanceof HTMLButtonElement
+  ) {
+    plantarseboton.addEventListener("click", plantarse);
+  }
+
+  if (
+    nuevaPartidaButton !== null &&
+    nuevaPartidaButton !== undefined &&
+    nuevaPartidaButton instanceof HTMLButtonElement
+  ) {
+    nuevaPartidaButton.addEventListener("click", iniciarNuevaPartida);
+  }
+};
